@@ -29,7 +29,7 @@ export default function Main(){
 
     useEffect(()=>{
         if(data === 'Hola'){
-            open();
+            openSuccess();
         }
     },[data]);
 
