@@ -6,33 +6,12 @@ import { useModal } from 'react-hooks-use-modal';
 export default function Main(){
     const [data, setData] = useState('No result');
     const [ModalSuccess, openSuccess] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
-    const [ModalFail, openFail] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
-
-    useEffect(()=>{
-        let localstream;
-        if (navigator.mediaDevices.getUserMedia !== null) {
-            
-            var options = { 
-                video:true
-            };  
-            navigator.getUserMedia(options, function(stream) { 
-                let vid = document.getElementById('vid');
-                vid.srcObject = stream;
-                localstream = stream;
-                vid.play();
-                console.log(stream,"streaming");
-            }, function(e) { 
-                console.log("background error : " + e.name);
-            }); 
-            }  
-    },[])
 
     useEffect(()=>{
         if(data === 'Hola'){
             openSuccess();
         }
-    },[data]);
-
+    },[data, openSuccess]);
 
     return(
         <div className={s.container}>
@@ -51,8 +30,10 @@ export default function Main(){
                 />
             </div>
             <ModalSuccess>
-                <h1>Juan fernandez validado correctamente</h1>
+                <h1 style={{color: 'yellow'}} >hola eipril gracias</h1>
             </ModalSuccess>
+
+                
         </div>
     )
 }
