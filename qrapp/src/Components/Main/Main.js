@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import s from './Main.module.css';
 import { QrReader } from 'react-qr-reader';
-
+import { useModal } from 'react-hooks-use-modal';
 
 export default function Main(){
     const [data, setData] = useState('No result');
+    const [ModalSuccess, openSuccess] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
+    const [ModalFail, openFail] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
 
     useEffect(()=>{
         let localstream;
@@ -25,6 +27,12 @@ export default function Main(){
             }  
     },[])
 
+    useEffect(()=>{
+        if(data === 'Hola'){
+            open();
+        }
+    },[data]);
+
 
     return(
         <div className={s.container}>
@@ -42,7 +50,9 @@ export default function Main(){
                     style={{ width: '100%' }}
                 />
             </div>
-            <p>{data}</p>
+            <ModalSuccess>
+                <h1>Juan fernandez validado correctamente</h1>
+            </ModalSuccess>
         </div>
     )
 }
