@@ -30,7 +30,7 @@ export default function Main(){
                 />
             </div>
             <ModalSuccess>
-                <h1 style={{color: 'yellow'}} >hola eipril gracias</h1>
+                <h1>Validado</h1>
             </ModalSuccess>
 
                 
