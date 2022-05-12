@@ -4,8 +4,14 @@ const QR = require('../models/qr');
 
 router.post('/', async (req, res) => {
     let {code, time} = req.body;
+    var value = {};
+    var qrTotal = 0;
     try {
-        var value = await QR.findOne({ where: {code}});
+        await Promise.all([QR.findOne({ where: {code}}), QR.count()])
+        .then(values =>{
+            value = values[0];
+            qrTotal = values[1];
+        })
     }
     catch(err) {
         console.log(err);
@@ -32,10 +38,12 @@ router.post('/', async (req, res) => {
             },
             {where: {code} }
         )
+        let qrValid = await QR.count({where: {valid : true}})
         res.send({
             message: "Ticket succesfully registered",
             success: 200, 
-            code
+            code,
+            total: `${qrValid}/${qrTotal}`
         });
     }
 })
