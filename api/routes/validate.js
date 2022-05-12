@@ -42,7 +42,7 @@ router.post('/', async (req, res) => {
         res.send({
             message: "Ticket succesfully registered",
             success: 200,
-            code,
+            code : value.code,
             total: `${qrValid}/${qrTotal}`
         });
     }
