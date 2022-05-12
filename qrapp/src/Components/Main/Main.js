@@ -7,10 +7,10 @@ import Transition from '../Transition/Transition';
 
 export default function Main(){
     const [data, setData] = useState('No result');
-    const [ticket, setTicket] = useState({code: '', time: '', message: ''});
-    const [ModalSuccess, openSuccess, closeSuccess] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
-    const [ModalFake, openFake, closeFake] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
-    const [ModalError, openError, closeError] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
+    const [ticket, setTicket] = useState({code: '', time: '', message: '', total: ''});
+    const [ModalSuccess, openSuccess, closeSuccess] = useModal('root', { preventScroll: true, closeOnOverlayClick: false});
+    const [ModalFake, openFake, closeFake] = useModal('root', { preventScroll: true, closeOnOverlayClick: false});
+    const [ModalError, openError, closeError] = useModal('root', { preventScroll: true, closeOnOverlayClick: false});
 
     useEffect(()=>{
 
@@ -46,8 +46,7 @@ export default function Main(){
     return(
         <div className={s.container}>
             <div className={s.header}>
-                <h1 className={s.title1}>LABA</h1>
-                <h2 className={s.title2}>Graduation Party</h2>
+                <h1 className={s.title1}>Ticket Express</h1>
             </div>
             <div className={s.videoContainer}>
                 <QrReader className={s.video} videoId='vid' constraints={{ facingMode: 'environment' }}
@@ -65,7 +64,7 @@ export default function Main(){
             </div>
             <div className={s.stats}>
                 <h3 className={s.statsTitle}>Registered Tickets</h3>
-                <p className={s.statsData}>75/650</p>
+                <p className={s.statsData}>{ticket.total}</p>
             </div>
             <ModalSuccess>
                 <Transition>
