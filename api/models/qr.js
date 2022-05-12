@@ -9,6 +9,10 @@ const QR = db.define('qr', {
   valid: {
     type: DataTypes.BOOLEAN,
     allowNull: false
+  },
+  time : {
+    type: DataTypes.STRING,
+    allowNull: false
   }
 })
 
