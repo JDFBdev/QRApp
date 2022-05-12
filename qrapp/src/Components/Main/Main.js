@@ -7,7 +7,7 @@ import Transition from '../Transition/Transition';
 
 export default function Main(){
     const [data, setData] = useState('No result');
-    const [ticket, setTicket] = useState({});
+    const [ticket, setTicket] = useState({code: '', time: '', message: ''});
     const [ModalSuccess, openSuccess, closeSuccess] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
     const [ModalFake, openFake, closeFake] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
     const [ModalError, openError, closeError] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
@@ -15,23 +15,34 @@ export default function Main(){
     useEffect(()=>{
 
         if(data !== 'No result'){
+
+            let today = new Date();
+            let time = today.getHours()+':'+today.getMinutes();
+            alert(time)
+
             async function fetchData(){
-                let promise = await axios.post('http://localhost:3001/test',
+                let promise = await axios.post('http://localhost:3001/validate',
                     {
-                        n: data
+                        code: data,
+                        time 
                     }
                 )
                 let response = promise.data;
-                if (response.succes){
+                if (response.success === 200){
+                    setTicket(response);
                     openSuccess();
-                }else{
+                }else if (response.success === 300){
+                    setTicket(response);
+                    openFake();
+                }else if (response.success === 400){
+                    setTicket(response);
                     openError();
                 }
             }
             fetchData();
         }
 
-    },[data]);
+    },[data, openSuccess, openError, openFake]);
 
     return(
         <div className={s.container}>
@@ -60,8 +71,8 @@ export default function Main(){
             <ModalSuccess>
                 <Transition>
                     <div className={s.modal}>
-                        <h1 className={s.modalTitle}>Ticket successfully registered</h1>
-                        <p className={s.modalData}>Nº 345829</p>
+                        <h1 className={s.modalTitle}>{ticket.message}</h1>
+                        <p className={s.modalData}>Nº {ticket.code}</p>
                         <button className={s.modalBtn} onClick={()=>{closeSuccess(); setData('No result');}}>Ok!</button>
                     </div>
                 </Transition>
@@ -69,9 +80,9 @@ export default function Main(){
             <ModalFake>
                 <Transition>
                     <div className={s.modal}>
-                        <h1 className={s.modalTitle}>Ticket has already been registered</h1>
-                        <p className={s.modalData}>Nº 345829</p>
-                        <p className={s.modalData}>Registered at 23:19</p>
+                        <h1 className={s.modalTitle}>{ticket.message}</h1>
+                        <p className={s.modalData}>Nº {ticket.code}</p>
+                        <p className={s.modalData}>Registered at {ticket.time}</p>
                         <button className={s.modalBtnErr} onClick={()=>{closeFake(); setData('No result');}}>Ok!</button>
                     </div>
                 </Transition>
@@ -79,9 +90,9 @@ export default function Main(){
             <ModalError>
                 <Transition>
                     <div className={s.modal}>
-                        <h1 className={s.modalTitle}>Ticket does not exist</h1>
+                        <h1 className={s.modalTitle}>{ticket.message}</h1>
                         <p className={s.modalData}>Ticket data is not<br/> an existing code:</p>
-                        <p className={s.modalData}>{data}</p>
+                        <p className={s.modalData}>{ticket.code}</p>
                         <button className={s.modalBtnErr} onClick={()=>{closeError(); setData('No result');}}>Ok!</button>
                     </div>
                 </Transition>
