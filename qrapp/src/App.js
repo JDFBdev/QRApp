@@ -8,9 +8,9 @@ function App() {
   useEffect(()=>{
     
     async function fetchData(){
-      await axios.get('http://localhost:3001/')
+      await axios.get('http://localhost:3001/');
     }
-
+    fetchData();
   },[])
 
   return (
