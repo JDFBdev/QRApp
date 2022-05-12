@@ -1,4 +1,120 @@
-.reader{
-    width: 70vw;
-    max-width: 600px;
+.container{
+    background-color: #171A1F;
+    height: fit-content;
+    min-height: 100vh;
+    max-width: 100vw;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    align-items: center;
+}
+
+.header{
+    width: 450px;
+}
+
+.title1{
+    font-family: 'Bebas';
+    color: #E6E7E8;
+    font-size: 5rem;
+    margin: 0;
+    font-weight: 400;
+}
+
+.title2{
+    font-family: 'Bebas';
+    color: #E6E7E8;
+    font-size: 4rem;
+    margin: 0;
+    font-weight: 400;
+}
+
+.videoContainer{
+
+    width: 450px;
+    height: 500px;
+    border-radius: 1rem;
+    overflow: hidden;
+}
+
+.video{
+    transform: scale(1.7);
+}
+
+.stats{
+    width: 450px;
+    height: fit-content;
+    background-color: #23252F;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+}
+
+.statsTitle{
+    font-family: 'Poppins';
+    color: #E6E7E8;
+    font-size: 2rem;
+    margin: 0;
+    font-weight: 400;
+}
+
+.statsData,
+.modalTitle,
+.modalData{
+    font-family: 'Poppins';
+    color: #E6E7E8;
+    font-size: 2.5rem;
+    margin: 0;
+    font-weight: 400;
+}
+
+.modal{
+    width: 410px;
+    height: fit-content;
+    background-color: #23252F;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 1rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
+    text-align: center;
+    gap: .5rem;
+    padding: 1rem;
+    padding-bottom: 1.5rem;
+}
+
+.modalTitle{
+    font-size: 2.3rem;
+}
+
+.modalData{
+    font-size: 1.8rem;
+}
+
+.modalBtn,
+.modalBtnErr{
+    font-family: 'Poppins';
+    color: #E6E7E8;
+    font-size: 1.8rem;
+    margin: 0;
+    font-weight: 400;
+
+    width: 80%;
+    height: fit-content;
+    background-color: #72B472;
+    border: none;
+    border-radius: .5rem;
+    cursor: pointer;
+}
+
+.modalBtnErr{
+    background-color: #EB5A5B;
 }

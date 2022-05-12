@@ -23,12 +23,12 @@ router.post('/', async (req, res) => {
             success: 400,
             code
         });
-    } else if (value.valid = true) {
+    } else if (value.valid === true) {
         res.send({
             message: "Ticket has already been registererd", 
             success: 300,
-            code,
-            time
+            code: value.code,
+            time: value.time
         });
     } else {
         await QR.update(
@@ -41,7 +41,7 @@ router.post('/', async (req, res) => {
         let qrValid = await QR.count({where: {valid : true}})
         res.send({
             message: "Ticket succesfully registered",
-            success: 200, 
+            success: 200,
             code,
             total: `${qrValid}/${qrTotal}`
         });

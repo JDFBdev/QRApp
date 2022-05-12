@@ -2,21 +2,55 @@ import React, { useState, useEffect } from 'react';
 import s from './Main.module.css';
 import { QrReader } from 'react-qr-reader';
 import { useModal } from 'react-hooks-use-modal';
+import axios from 'axios';
+import Transition from '../Transition/Transition';
 
 export default function Main(){
     const [data, setData] = useState('No result');
-    const [ModalSuccess, openSuccess] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
+    const [ticket, setTicket] = useState({code: '', time: '', message: ''});
+    const [ModalSuccess, openSuccess, closeSuccess] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
+    const [ModalFake, openFake, closeFake] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
+    const [ModalError, openError, closeError] = useModal('root', { preventScroll: true, closeOnOverlayClick: true});
 
     useEffect(()=>{
-        if(data === 'Hola'){
-            openSuccess();
+
+        if(data !== 'No result'){
+
+            let today = new Date();
+            let time = today.getHours()+':'+today.getMinutes();
+
+            async function fetchData(){
+                let promise = await axios.post('http://localhost:3001/validate',
+                    {
+                        code: data,
+                        time 
+                    }
+                )
+                let response = promise.data;
+                if (response.success === 200){
+                    setTicket(response);
+                    openSuccess();
+                }else if (response.success === 300){
+                    setTicket(response);
+                    openFake();
+                }else if (response.success === 400){
+                    setTicket(response);
+                    openError();
+                }
+            }
+            fetchData();
         }
-    },[data, openSuccess]);
+
+    },[data, openSuccess, openError, openFake]);
 
     return(
         <div className={s.container}>
-            <div className={s.reader}>
-                <QrReader videoId='vid' constraints={{ facingMode: 'environment' }}
+            <div className={s.header}>
+                <h1 className={s.title1}>LABA</h1>
+                <h2 className={s.title2}>Graduation Party</h2>
+            </div>
+            <div className={s.videoContainer}>
+                <QrReader className={s.video} videoId='vid' constraints={{ facingMode: 'environment' }}
                     onResult={(result, error) => {
                     if (!!result) {
                         setData(result?.text);
@@ -29,11 +63,40 @@ export default function Main(){
                     style={{ width: '100%' }}
                 />
             </div>
+            <div className={s.stats}>
+                <h3 className={s.statsTitle}>Registered Tickets</h3>
+                <p className={s.statsData}>75/650</p>
+            </div>
             <ModalSuccess>
-                <h1>Validado</h1>
+                <Transition>
+                    <div className={s.modal}>
+                        <h1 className={s.modalTitle}>{ticket.message}</h1>
+                        <p className={s.modalData}>Nº {ticket.code}</p>
+                        <button className={s.modalBtn} onClick={()=>{closeSuccess(); setData('No result');}}>Ok!</button>
+                    </div>
+                </Transition>
             </ModalSuccess>
+            <ModalFake>
+                <Transition>
+                    <div className={s.modal}>
+                        <h1 className={s.modalTitle}>{ticket.message}</h1>
+                        <p className={s.modalData}>Nº {ticket.code}</p>
+                        <p className={s.modalData}>Registered at {ticket.time}</p>
+                        <button className={s.modalBtnErr} onClick={()=>{closeFake(); setData('No result');}}>Ok!</button>
+                    </div>
+                </Transition>
+            </ModalFake>
+            <ModalError>
+                <Transition>
+                    <div className={s.modal}>
+                        <h1 className={s.modalTitle}>{ticket.message}</h1>
+                        <p className={s.modalData}>Ticket data is not<br/> an existing code:</p>
+                        <p className={s.modalData}>{ticket.code}</p>
+                        <button className={s.modalBtnErr} onClick={()=>{closeError(); setData('No result');}}>Ok!</button>
+                    </div>
+                </Transition>
+            </ModalError>
 
-                
         </div>
     )
 }
