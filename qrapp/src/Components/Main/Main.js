@@ -18,7 +18,6 @@ export default function Main(){
 
             let today = new Date();
             let time = today.getHours()+':'+today.getMinutes();
-            alert(time)
 
             async function fetchData(){
                 let promise = await axios.post('http://localhost:3001/validate',
