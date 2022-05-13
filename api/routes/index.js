@@ -12,7 +12,7 @@ router.use('/bulkCreateQR', bulkCreateQR);
 
 /* GET home page. */
 router.get('/', (req, res) => {
-  res.status(200).send({message: "/validate", succes: true});
+  res.status(200).send({message: "/validate", success: true});
 });
 
 module.exports = router;
