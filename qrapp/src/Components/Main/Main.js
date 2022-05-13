@@ -20,7 +20,7 @@ export default function Main({loading}){
             let time = today.getHours()+':'+today.getMinutes();
 
             async function fetchData(){
-                let promise = await axios.post('http://localhost:3001/validate',
+                let promise = await axios.post('https://qrappback.herokuapp.com/validate',
                     {
                         code: data,
                         time 
