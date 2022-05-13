@@ -5,7 +5,7 @@ import { useModal } from 'react-hooks-use-modal';
 import axios from 'axios';
 import Transition from '../Transition/Transition';
 
-export default function Main(){
+export default function Main({loading}){
     const [data, setData] = useState('No result');
     const [ticket, setTicket] = useState({code: '', time: '', message: '', total: ''});
     const [ModalSuccess, openSuccess, closeSuccess] = useModal('root', { preventScroll: true, closeOnOverlayClick: false});
@@ -44,58 +44,63 @@ export default function Main(){
     },[data, openSuccess, openError, openFake]);
 
     return(
-        <div className={s.container}>
-            <div className={s.header}>
-                <h1 className={s.title1}>Ticket Express</h1>
-            </div>
-            <div className={s.videoContainer}>
-                <QrReader className={s.video} videoId='vid' constraints={{ facingMode: 'environment' }}
-                    onResult={(result, error) => {
-                    if (!!result) {
-                        setData(result?.text);
-                    }
+        <>
+            {!loading &&
+            
+            <div className={s.container}>
+                <div className={s.header}>
+                    <h1 className={s.title1}>Ticket Express</h1>
+                </div>
+                <div className={s.videoContainer}>
+                    <QrReader className={s.video} videoId='vid' constraints={{ facingMode: 'environment' }}
+                        onResult={(result, error) => {
+                        if (!!result) {
+                            setData(result?.text);
+                        }
 
-                    if (!!error) {
-                        console.info(error);
-                    }
-                    }}
-                    style={{ width: '100%' }}
-                />
-            </div>
-            <div className={s.stats}>
-                <h3 className={s.statsTitle}>Registered Tickets</h3>
-                <p className={s.statsData}>{ticket.total}</p>
-            </div>
-            <ModalSuccess>
-                <Transition>
-                    <div className={s.modal}>
-                        <h1 className={s.modalTitle}>{ticket.message}</h1>
-                        <p className={s.modalData}>Nº {ticket.code}</p>
-                        <button className={s.modalBtn} onClick={()=>{closeSuccess(); setData('No result');}}>Ok!</button>
-                    </div>
-                </Transition>
-            </ModalSuccess>
-            <ModalFake>
-                <Transition>
-                    <div className={s.modal}>
-                        <h1 className={s.modalTitle}>{ticket.message}</h1>
-                        <p className={s.modalData}>Nº {ticket.code}</p>
-                        <p className={s.modalData}>Registered at {ticket.time}</p>
-                        <button className={s.modalBtnErr} onClick={()=>{closeFake(); setData('No result');}}>Ok!</button>
-                    </div>
-                </Transition>
-            </ModalFake>
-            <ModalError>
-                <Transition>
-                    <div className={s.modal}>
-                        <h1 className={s.modalTitle}>{ticket.message}</h1>
-                        <p className={s.modalData}>Ticket data is not<br/> an existing code:</p>
-                        <p className={s.modalData}>{ticket.code}</p>
-                        <button className={s.modalBtnErr} onClick={()=>{closeError(); setData('No result');}}>Ok!</button>
-                    </div>
-                </Transition>
-            </ModalError>
+                        if (!!error) {
+                            console.info(error);
+                        }
+                        }}
+                        style={{ width: '100%' }}
+                    />
+                </div>
+                <div className={s.stats}>
+                    <h3 className={s.statsTitle}>Registered Tickets</h3>
+                    <p className={s.statsData}>{ticket.total}</p>
+                </div>
+                <ModalSuccess>
+                    <Transition>
+                        <div className={s.modal}>
+                            <h1 className={s.modalTitle}>{ticket.message}</h1>
+                            <p className={s.modalData}>Nº {ticket.code}</p>
+                            <button className={s.modalBtn} onClick={()=>{closeSuccess(); setData('No result');}}>Ok!</button>
+                        </div>
+                    </Transition>
+                </ModalSuccess>
+                <ModalFake>
+                    <Transition>
+                        <div className={s.modal}>
+                            <h1 className={s.modalTitle}>{ticket.message}</h1>
+                            <p className={s.modalData}>Nº {ticket.code}</p>
+                            <p className={s.modalData}>Registered at {ticket.time}</p>
+                            <button className={s.modalBtnErr} onClick={()=>{closeFake(); setData('No result');}}>Ok!</button>
+                        </div>
+                    </Transition>
+                </ModalFake>
+                <ModalError>
+                    <Transition>
+                        <div className={s.modal}>
+                            <h1 className={s.modalTitle}>{ticket.message}</h1>
+                            <p className={s.modalData}>Ticket data is not<br/> an existing code:</p>
+                            <p className={s.modalData}>{ticket.code}</p>
+                            <button className={s.modalBtnErr} onClick={()=>{closeError(); setData('No result');}}>Ok!</button>
+                        </div>
+                    </Transition>
+                </ModalError>
 
-        </div>
+            </div>
+            }
+        </>
     )
 }
