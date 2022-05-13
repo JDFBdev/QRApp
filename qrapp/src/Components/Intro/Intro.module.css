@@ -1,0 +1,51 @@
+.container{
+    width: 100vw;
+    height: 100vh;
+    background: #171A1F;
+    background: radial-gradient(circle, #171A1F 0%, #0e1012 100%);
+    overflow: hidden;
+    position: absolute;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo{
+    width: 350px;
+    height: auto;
+}
+
+.title{
+    font-family: 'Bebas';
+    color: #E6E7E8;
+    font-size: clamp(2rem, 14vw, 4.5rem);
+    margin: 0;
+    font-weight: 400;
+}
+
+.MyClassEnterActive {
+    opacity: 0;
+    transform: translate(0px, 10px);
+    transition: transform .5s, opacity .5s ease;
+}
+  
+.MyClassEnterDone {
+    opacity: 1;
+    transform: translate(0px, -10px);
+    transition: transform .5s, opacity .5s ease;
+}
+  
+.exit{
+    opacity: 1;
+    transform: translate(0px, 10px);
+    transition: transform .5s, opacity .5s ease;
+}
+
+.done{
+    opacity: 0;
+    transform: translate(0px, -30px);
+    transition: transform .5s, opacity .5s ease;
+}
+
