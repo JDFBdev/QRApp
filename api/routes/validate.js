@@ -6,6 +6,8 @@ router.post('/', async (req, res) => {
     let {code, time} = req.body;
     var value = {};
     var qrTotal = 0;
+    let qrValid = await QR.count({where: {valid : true}})
+    
     try {
         await Promise.all([QR.findOne({ where: {code}}), QR.count()])
         .then(values =>{
@@ -40,7 +42,6 @@ router.post('/', async (req, res) => {
             },
             {where: {code} }
         )
-        let qrValid = await QR.count({where: {valid : true}})
         res.send({
             message: "Ticket succesfully registered",
             success: 200,
