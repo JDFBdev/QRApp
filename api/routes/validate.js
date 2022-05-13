@@ -6,6 +6,7 @@ router.post('/', async (req, res) => {
     let {code, time} = req.body;
     var value = {};
     var qrTotal = 0;
+    let qrValid = 0;
     try {
         await Promise.all([QR.findOne({ where: {code}}), QR.count()])
         .then(values =>{
@@ -18,6 +19,7 @@ router.post('/', async (req, res) => {
     }
 
     if (!value) {
+        qrValid = await QR.count({where: {valid : true}})
         res.send({
             message: "Ticket does not exist",
             success: 400,
@@ -25,6 +27,7 @@ router.post('/', async (req, res) => {
             total: `${qrValid}/${qrTotal}`
         });
     } else if (value.valid === true) {
+        qrValid = await QR.count({where: {valid : true}})
         res.send({
             message: "Ticket has already been registererd", 
             success: 300,
@@ -40,7 +43,7 @@ router.post('/', async (req, res) => {
             },
             {where: {code} }
         )
-        let qrValid = await QR.count({where: {valid : true}})
+        qrValid = await QR.count({where: {valid : true}})
         res.send({
             message: "Ticket succesfully registered",
             success: 200,
