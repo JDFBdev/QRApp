@@ -21,14 +21,16 @@ router.post('/', async (req, res) => {
         res.send({
             message: "Ticket does not exist",
             success: 400,
-            code
+            code,
+            total: `${qrValid}/${qrTotal}`
         });
     } else if (value.valid === true) {
         res.send({
             message: "Ticket has already been registererd", 
             success: 300,
             code: value.code,
-            time: value.time
+            time: value.time,
+            total: `${qrValid}/${qrTotal}`
         });
     } else {
         await QR.update(
