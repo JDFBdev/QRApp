@@ -13,7 +13,7 @@ function App() {
 
     async function fetchData(){
       setTimeout(() => setTimer(true), 3000);
-      let response = await axios.get('http://localhost:3001/')
+      let response = await axios.get('https://qrappback.herokuapp.com/')
       setPromise(response.data);
     }
     fetchData();
